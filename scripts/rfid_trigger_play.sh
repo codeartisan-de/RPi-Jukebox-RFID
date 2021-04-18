@@ -57,7 +57,7 @@ fi
 ###########################################################
 
 # Read configuration file
-. $PATHDATA/../settings/rfid_trigger_play.conf
+#. $PATHDATA/../settings/rfid_trigger_play.conf
 
 # Get args from command line (see Usage above)
 # see following file for details:
@@ -79,250 +79,277 @@ if [ "$CARDID" ]; then
     # If the input is of 'special' use, don't treat it like a trigger to play audio.
     # Special uses are for example volume changes, skipping, muting sound.
 
-    case $CARDID in
-        $CMDSHUFFLE)
-            # toggles shuffle mode  (random on/off)
-            $PATHDATA/playout_controls.sh -c=playershuffle
-            ;;
-        $CMDMAXVOL30)
-            # limit volume to 30%
-            $PATHDATA/playout_controls.sh -c=setmaxvolume -v=30
-            ;;
-        $CMDMAXVOL50)
-            # limit volume to 50%
-            $PATHDATA/playout_controls.sh -c=setmaxvolume -v=50
-            ;;
-        $CMDMAXVOL75)
-            # limit volume to 75%
-            $PATHDATA/playout_controls.sh -c=setmaxvolume -v=75
-            ;;
-        $CMDMAXVOL80)
-            # limit volume to 80%
-            $PATHDATA/playout_controls.sh -c=setmaxvolume -v=80
-            ;;
-        $CMDMAXVOL85)
-            # limit volume to 85%
-            $PATHDATA/playout_controls.sh -c=setmaxvolume -v=85
-            ;;
-        $CMDMAXVOL90)
-            # limit volume to 90%
-            $PATHDATA/playout_controls.sh -c=setmaxvolume -v=90
-            ;;
-        $CMDMAXVOL95)
-            # limit volume to 95%
-            $PATHDATA/playout_controls.sh -c=setmaxvolume -v=95
-            ;;
-        $CMDMAXVOL100)
-            # limit volume to 100%
-            $PATHDATA/playout_controls.sh -c=setmaxvolume -v=100
-            ;;
-        $CMDMUTE)
-            # amixer sset 'PCM' 0%
-            $PATHDATA/playout_controls.sh -c=mute
-            ;;
-        $CMDVOL30)
-            # amixer sset 'PCM' 30%
-            $PATHDATA/playout_controls.sh -c=setvolume -v=30
-            ;;
-        $CMDVOL50)
-            # amixer sset 'PCM' 50%
-            $PATHDATA/playout_controls.sh -c=setvolume -v=50
-            ;;
-        $CMDVOL75)
-            # amixer sset 'PCM' 75%
-            $PATHDATA/playout_controls.sh -c=setvolume -v=75
-            ;;
-        $CMDVOL80)
-            # amixer sset 'PCM' 80%
-            $PATHDATA/playout_controls.sh -c=setvolume -v=80
-            ;;
-        $CMDVOL85)
-            # amixer sset 'PCM' 85%
-            $PATHDATA/playout_controls.sh -c=setvolume -v=85
-            ;;
-        $CMDVOL90)
-            # amixer sset 'PCM' 90%
-            $PATHDATA/playout_controls.sh -c=setvolume -v=90
-            ;;
-        $CMDVOL95)
-            # amixer sset 'PCM' 95%
-            $PATHDATA/playout_controls.sh -c=setvolume -v=95
-            ;;
-        $CMDVOL100)
-            # amixer sset 'PCM' 100%
-            $PATHDATA/playout_controls.sh -c=setvolume -v=100
-            ;;
-        $CMDVOLUP)
-            # increase volume by x% set in Audio_Volume_Change_Step
-            $PATHDATA/playout_controls.sh -c=volumeup
-            ;;
-        $CMDVOLDOWN)
-            # decrease volume by x% set in Audio_Volume_Change_Step
-            $PATHDATA/playout_controls.sh -c=volumedown
-            ;;
-        $CMDSWITCHAUDIOIFACE)
-            # switch between primary/secondary audio iFaces
-            $PATHDATA/playout_controls.sh -c=switchaudioiface
-	    ;;
-        $CMDSTOP)
-            # kill all running audio players
-            $PATHDATA/playout_controls.sh -c=playerstop
-            ;;
-        $CMDSHUTDOWN)
-            # shutdown the RPi nicely
-            # sudo halt
-            $PATHDATA/playout_controls.sh -c=shutdown
-            ;;
-        $CMDREBOOT)
-            # shutdown the RPi nicely
-            # sudo reboot
-            $PATHDATA/playout_controls.sh -c=reboot
-            ;;
-        $CMDNEXT)
-            # play next track in playlist
-            $PATHDATA/playout_controls.sh -c=playernext
-            ;;
-        $CMDPREV)
-            # play previous track in playlist
-            # echo "prev" | nc.openbsd -w 1 localhost 4212
-            sudo $PATHDATA/playout_controls.sh -c=playerprev
-            #/usr/bin/sudo /home/pi/RPi-Jukebox-RFID/scripts/playout_controls.sh -c=playerprev
-            ;;
-        $CMDREWIND)
-            # play the first track in playlist
-            sudo $PATHDATA/playout_controls.sh -c=playerrewind
-            ;;
-        $CMDSEEKFORW)
-            # jump 15 seconds ahead
-            $PATHDATA/playout_controls.sh -c=playerseek -v=+15
-            ;;
-        $CMDSEEKBACK)
-            # jump 15 seconds back
-            $PATHDATA/playout_controls.sh -c=playerseek -v=-15
-            ;;
-        $CMDPAUSE)
-            # pause current track
-            # echo "pause" | nc.openbsd -w 1 localhost 4212
-            $PATHDATA/playout_controls.sh -c=playerpause
-            ;;
-        $CMDPLAY)
-            # play / resume current track
-            # echo "play" | nc.openbsd -w 1 localhost 4212
-            $PATHDATA/playout_controls.sh -c=playerplay
-            ;;
-        $STOPAFTER5)
-            # stop player after -v minutes
-            $PATHDATA/playout_controls.sh -c=playerstopafter -v=5
-            ;;
-        $STOPAFTER15)
-            # stop player after -v minutes
-            $PATHDATA/playout_controls.sh -c=playerstopafter -v=15
-            ;;
-        $STOPAFTER30)
-            # stop player after -v minutes
-            $PATHDATA/playout_controls.sh -c=playerstopafter -v=30
-            ;;
-        $STOPAFTER60)
-            # stop player after -v minutes
-            $PATHDATA/playout_controls.sh -c=playerstopafter -v=60
-            ;;
-        $SHUTDOWNAFTER5)
-            # shutdown after -v minutes
-            $PATHDATA/playout_controls.sh -c=shutdownafter -v=5
-            ;;
-        $SHUTDOWNAFTER15)
-            # shutdown after -v minutes
-            $PATHDATA/playout_controls.sh -c=shutdownafter -v=15
-            ;;
-        $SHUTDOWNAFTER30)
-            # shutdown after -v minutes
-            $PATHDATA/playout_controls.sh -c=shutdownafter -v=30
-            ;;
-        $SHUTDOWNAFTER60)
-            # shutdown after -v minutes
-            $PATHDATA/playout_controls.sh -c=shutdownafter -v=60
-            ;;
-		$SHUTDOWNVOLUMEREDUCTION10)
-			# reduce volume until shutdown in -v minutes
-			$PATHDATA/playout_controls.sh -c=shutdownvolumereduction -v=10
-			;;
-		$SHUTDOWNVOLUMEREDUCTION15)
-			# reduce volume until shutdown in -v minutes
-			$PATHDATA/playout_controls.sh -c=shutdownvolumereduction -v=15
-			;;
-		$SHUTDOWNVOLUMEREDUCTION30)
-			# reduce volume until shutdown in -v minutes
-			$PATHDATA/playout_controls.sh -c=shutdownvolumereduction -v=30
-			;;
-		$SHUTDOWNVOLUMEREDUCTION60)
-			# reduce volume until shutdown in -v minutes
-			$PATHDATA/playout_controls.sh -c=shutdownvolumereduction -v=60
-			;;
-        $ENABLEWIFI)
-            $PATHDATA/playout_controls.sh -c=enablewifi
-            ;;
-        $DISABLEWIFI)
-            $PATHDATA/playout_controls.sh -c=disablewifi
-            ;;
-        $TOGGLEWIFI)
-            $PATHDATA/playout_controls.sh -c=togglewifi
-            ;;
-        $CMDPLAYCUSTOMPLS)
-            $PATHDATA/playout_controls.sh -c=playlistaddplay -v="PhonieCustomPLS" -d="PhonieCustomPLS"
-            ;;
-        $RECORDSTART600)
-            #start recorder for -v seconds
-            $PATHDATA/playout_controls.sh -c=recordstart -v=600
-            ;;
-        $RECORDSTART60)
-            #start recorder for -v seconds
-            $PATHDATA/playout_controls.sh -c=recordstart -v=60
-            ;;
-        $RECORDSTART10)
-            #start recorder for -v seconds
-            $PATHDATA/playout_controls.sh -c=recordstart -v=10
-            ;;
-        $RECORDSTOP)
-            $PATHDATA/playout_controls.sh -c=recordstop
-            ;;
-        $RECORDPLAYBACKLATEST)
-            $PATHDATA/playout_controls.sh -c=recordplaylatest
-            ;;
-        $CMDREADWIFIIP)
-            $PATHDATA/playout_controls.sh -c=readwifiipoverspeaker
-            ;;
-        $CMDBLUETOOTHTOGGLE)
-            $PATHDATA/playout_controls.sh -c=bluetoothtoggle -v=toggle
-            ;;
-        *)
+    # set this to true later if a command was found
+    CMDFOUND=FALSE
+    # Search for CARDID in Config and get its line and the next
+    CMDLINES=$(grep -A1 $CARDID $PATHDATA/../settings/rfid_trigger_play.conf)
+    echo $CMDLINES
+    if [ -n "${CMDLINES}" ]; then
+        # if CARDID was found extract the command infos from the 2 lines
+        read CMDNAME CMDID CMDTEXT < <([[ "$CMDLINES" =~ ^([^=\"]*)=\"([^=\"]*)\"[^#]*#(.*)$ ]] && echo ${BASH_REMATCH[1]} ${BASH_REMATCH[2]} ${BASH_REMATCH[3]})
+        read CMD < <([[ "$CMDTEXT" =~ ^CMD=(.*)$ ]] && echo ${BASH_REMATCH[1]})
+        echo $CMDNAME
+        echo $CMDID
+        echo $CMDTEXT
+        echo $CMD
 
-            # We checked if the card was a special command, seems it wasn't.
-            # Now we expect it to be a trigger for one or more audio file(s).
-            # Let's look at the ID, write a bit of log information and then try to play audio.
+        if [ -n "${CMD}" ]; then
+            # if command was set in config, execute it
+            eval "$CMD"
+        else
+            # set this to false again later if no default command was found
+            CMDFOUND=TRUE
+            # if no command was set in config, use the default command if there ist one
+            case $CMDNAME in
+                CMDSHUFFLE)
+                    # toggles shuffle mode  (random on/off)
+                    $PATHDATA/playout_controls.sh -c=playershuffle
+                    ;;
+                CMDMAXVOL30)
+                    # limit volume to 30%
+                    $PATHDATA/playout_controls.sh -c=setmaxvolume -v=30
+                    ;;
+                CMDMAXVOL50)
+                    # limit volume to 50%
+                    $PATHDATA/playout_controls.sh -c=setmaxvolume -v=50
+                    ;;
+                CMDMAXVOL75)
+                    # limit volume to 75%
+                    $PATHDATA/playout_controls.sh -c=setmaxvolume -v=75
+                    ;;
+                CMDMAXVOL80)
+                    # limit volume to 80%
+                    $PATHDATA/playout_controls.sh -c=setmaxvolume -v=80
+                    ;;
+                CMDMAXVOL85)
+                    # limit volume to 85%
+                    $PATHDATA/playout_controls.sh -c=setmaxvolume -v=85
+                    ;;
+                CMDMAXVOL90)
+                    # limit volume to 90%
+                    $PATHDATA/playout_controls.sh -c=setmaxvolume -v=90
+                    ;;
+                CMDMAXVOL95)
+                    # limit volume to 95%
+                    $PATHDATA/playout_controls.sh -c=setmaxvolume -v=95
+                    ;;
+                CMDMAXVOL100)
+                    # limit volume to 100%
+                    $PATHDATA/playout_controls.sh -c=setmaxvolume -v=100
+                    ;;
+                CMDMUTE)
+                    # amixer sset 'PCM' 0%
+                    $PATHDATA/playout_controls.sh -c=mute
+                    ;;
+                CMDVOL30)
+                    # amixer sset 'PCM' 30%
+                    $PATHDATA/playout_controls.sh -c=setvolume -v=30
+                    ;;
+                CMDVOL50)
+                    # amixer sset 'PCM' 50%
+                    $PATHDATA/playout_controls.sh -c=setvolume -v=50
+                    ;;
+                CMDVOL75)
+                    # amixer sset 'PCM' 75%
+                    $PATHDATA/playout_controls.sh -c=setvolume -v=75
+                    ;;
+                CMDVOL80)
+                    # amixer sset 'PCM' 80%
+                    $PATHDATA/playout_controls.sh -c=setvolume -v=80
+                    ;;
+                CMDVOL85)
+                    # amixer sset 'PCM' 85%
+                    $PATHDATA/playout_controls.sh -c=setvolume -v=85
+                    ;;
+                CMDVOL90)
+                    # amixer sset 'PCM' 90%
+                    $PATHDATA/playout_controls.sh -c=setvolume -v=90
+                    ;;
+                CMDVOL95)
+                    # amixer sset 'PCM' 95%
+                    $PATHDATA/playout_controls.sh -c=setvolume -v=95
+                    ;;
+                CMDVOL100)
+                    # amixer sset 'PCM' 100%
+                    $PATHDATA/playout_controls.sh -c=setvolume -v=100
+                    ;;
+                CMDVOLUP)
+                    # increase volume by x% set in Audio_Volume_Change_Step
+                    $PATHDATA/playout_controls.sh -c=volumeup
+                    ;;
+                CMDVOLDOWN)
+                    # decrease volume by x% set in Audio_Volume_Change_Step
+                    $PATHDATA/playout_controls.sh -c=volumedown
+                    ;;
+                CMDSWITCHAUDIOIFACE)
+                    # switch between primary/secondary audio iFaces
+                    $PATHDATA/playout_controls.sh -c=switchaudioiface
+                ;;
+                CMDSTOP)
+                    # kill all running audio players
+                    $PATHDATA/playout_controls.sh -c=playerstop
+                    ;;
+                CMDSHUTDOWN)
+                    # shutdown the RPi nicely
+                    # sudo halt
+                    $PATHDATA/playout_controls.sh -c=shutdown
+                    ;;
+                CMDREBOOT)
+                    # shutdown the RPi nicely
+                    # sudo reboot
+                    $PATHDATA/playout_controls.sh -c=reboot
+                    ;;
+                CMDNEXT)
+                    # play next track in playlist
+                    $PATHDATA/playout_controls.sh -c=playernext
+                    ;;
+                CMDPREV)
+                    # play previous track in playlist
+                    # echo "prev" | nc.openbsd -w 1 localhost 4212
+                    sudo $PATHDATA/playout_controls.sh -c=playerprev
+                    #/usr/bin/sudo /home/pi/RPi-Jukebox-RFID/scripts/playout_controls.sh -c=playerprev
+                    ;;
+                CMDREWIND)
+                    # play the first track in playlist
+                    sudo $PATHDATA/playout_controls.sh -c=playerrewind
+                    ;;
+                CMDSEEKFORW)
+                    # jump 15 seconds ahead
+                    $PATHDATA/playout_controls.sh -c=playerseek -v=+15
+                    ;;
+                CMDSEEKBACK)
+                    # jump 15 seconds back
+                    $PATHDATA/playout_controls.sh -c=playerseek -v=-15
+                    ;;
+                CMDPAUSE)
+                    # pause current track
+                    # echo "pause" | nc.openbsd -w 1 localhost 4212
+                    $PATHDATA/playout_controls.sh -c=playerpause
+                    ;;
+                CMDPLAY)
+                    # play / resume current track
+                    # echo "play" | nc.openbsd -w 1 localhost 4212
+                    $PATHDATA/playout_controls.sh -c=playerplay
+                    ;;
+                STOPAFTER5)
+                    # stop player after -v minutes
+                    $PATHDATA/playout_controls.sh -c=playerstopafter -v=5
+                    ;;
+                STOPAFTER15)
+                    # stop player after -v minutes
+                    $PATHDATA/playout_controls.sh -c=playerstopafter -v=15
+                    ;;
+                STOPAFTER30)
+                    # stop player after -v minutes
+                    $PATHDATA/playout_controls.sh -c=playerstopafter -v=30
+                    ;;
+                STOPAFTER60)
+                    # stop player after -v minutes
+                    $PATHDATA/playout_controls.sh -c=playerstopafter -v=60
+                    ;;
+                SHUTDOWNAFTER5)
+                    # shutdown after -v minutes
+                    $PATHDATA/playout_controls.sh -c=shutdownafter -v=5
+                    ;;
+                SHUTDOWNAFTER15)
+                    # shutdown after -v minutes
+                    $PATHDATA/playout_controls.sh -c=shutdownafter -v=15
+                    ;;
+                SHUTDOWNAFTER30)
+                    # shutdown after -v minutes
+                    $PATHDATA/playout_controls.sh -c=shutdownafter -v=30
+                    ;;
+                SHUTDOWNAFTER60)
+                    # shutdown after -v minutes
+                    $PATHDATA/playout_controls.sh -c=shutdownafter -v=60
+                    ;;
+                SHUTDOWNVOLUMEREDUCTION10)
+                    # reduce volume until shutdown in -v minutes
+                    $PATHDATA/playout_controls.sh -c=shutdownvolumereduction -v=10
+                    ;;
+                SHUTDOWNVOLUMEREDUCTION15)
+                    # reduce volume until shutdown in -v minutes
+                    $PATHDATA/playout_controls.sh -c=shutdownvolumereduction -v=15
+                    ;;
+                SHUTDOWNVOLUMEREDUCTION30)
+                    # reduce volume until shutdown in -v minutes
+                    $PATHDATA/playout_controls.sh -c=shutdownvolumereduction -v=30
+                    ;;
+                SHUTDOWNVOLUMEREDUCTION60)
+                    # reduce volume until shutdown in -v minutes
+                    $PATHDATA/playout_controls.sh -c=shutdownvolumereduction -v=60
+                    ;;
+                ENABLEWIFI)
+                    $PATHDATA/playout_controls.sh -c=enablewifi
+                    ;;
+                DISABLEWIFI)
+                    $PATHDATA/playout_controls.sh -c=disablewifi
+                    ;;
+                TOGGLEWIFI)
+                    $PATHDATA/playout_controls.sh -c=togglewifi
+                    ;;
+                CMDPLAYCUSTOMPLS)
+                    $PATHDATA/playout_controls.sh -c=playlistaddplay -v="PhonieCustomPLS" -d="PhonieCustomPLS"
+                    ;;
+                RECORDSTART600)
+                    #start recorder for -v seconds
+                    $PATHDATA/playout_controls.sh -c=recordstart -v=600
+                    ;;
+                RECORDSTART60)
+                    #start recorder for -v seconds
+                    $PATHDATA/playout_controls.sh -c=recordstart -v=60
+                    ;;
+                RECORDSTART10)
+                    #start recorder for -v seconds
+                    $PATHDATA/playout_controls.sh -c=recordstart -v=10
+                    ;;
+                RECORDSTOP)
+                    $PATHDATA/playout_controls.sh -c=recordstop
+                    ;;
+                RECORDPLAYBACKLATEST)
+                    $PATHDATA/playout_controls.sh -c=recordplaylatest
+                    ;;
+                CMDREADWIFIIP)
+                    $PATHDATA/playout_controls.sh -c=readwifiipoverspeaker
+                    ;;
+                CMDBLUETOOTHTOGGLE)
+                    $PATHDATA/playout_controls.sh -c=bluetoothtoggle -v=toggle
+                    ;;
+                *)
+                    # if there ist no default command, set ist to false again
+                    CMDFOUND=FALSE
+                    ;;
+            esac
+        fi
+    fi
 
-            # Look for human readable shortcut in folder 'shortcuts'
-            # check if CARDID has a text file by the same name - which would contain the human readable folder name
-            if [ -f $PATHDATA/../shared/shortcuts/$CARDID ]
-            then
-                # Read human readable shortcut from file
-                FOLDER=`cat $PATHDATA/../shared/shortcuts/$CARDID`
-                # Add info into the log, making it easer to monitor cards
-                echo "This ID has been used before." >> $PATHDATA/../shared/latestID.txt
-                if [ "${DEBUG_rfid_trigger_play_sh}" == "TRUE" ]; then echo "This ID has been used before."   >> $PATHDATA/../logs/debug.log; fi
-            else
-                # Human readable shortcut does not exists, so create one with the content $CARDID
-                # this file can later be edited manually over the samba network
-                echo "$CARDID" > $PATHDATA/../shared/shortcuts/$CARDID
-                FOLDER=$CARDID
-                # Add info into the log, making it easer to monitor cards
-                echo "This ID was used for the first time." >> $PATHDATA/../shared/latestID.txt
-                if [ "${DEBUG_rfid_trigger_play_sh}" == "TRUE" ]; then echo "This ID was used for the first time."   >> $PATHDATA/../logs/debug.log; fi
-            fi
+    if [ "${CMDFOUND}" != "TRUE" ]; then
+        # We checked if the card was a special command, seems it wasn't.
+        # Now we expect it to be a trigger for one or more audio file(s).
+        # Let's look at the ID, write a bit of log information and then try to play audio.
+
+        # Look for human readable shortcut in folder 'shortcuts'
+        # check if CARDID has a text file by the same name - which would contain the human readable folder name
+        if [ -f $PATHDATA/../shared/shortcuts/$CARDID ]
+        then
+            # Read human readable shortcut from file
+            FOLDER=`cat $PATHDATA/../shared/shortcuts/$CARDID`
             # Add info into the log, making it easer to monitor cards
-            echo "The shortcut points to audiofolder '$FOLDER'." >> $PATHDATA/../shared/latestID.txt
-            if [ "${DEBUG_rfid_trigger_play_sh}" == "TRUE" ]; then echo "The shortcut points to audiofolder '$FOLDER'." >> $PATHDATA/../logs/debug.log; fi
-            ;;
-    esac
+            echo "This ID has been used before." >> $PATHDATA/../shared/latestID.txt
+            if [ "${DEBUG_rfid_trigger_play_sh}" == "TRUE" ]; then echo "This ID has been used before."   >> $PATHDATA/../logs/debug.log; fi
+        else
+            # Human readable shortcut does not exists, so create one with the content $CARDID
+            # this file can later be edited manually over the samba network
+            echo "$CARDID" > $PATHDATA/../shared/shortcuts/$CARDID
+            FOLDER=$CARDID
+            # Add info into the log, making it easer to monitor cards
+            echo "This ID was used for the first time." >> $PATHDATA/../shared/latestID.txt
+            if [ "${DEBUG_rfid_trigger_play_sh}" == "TRUE" ]; then echo "This ID was used for the first time."   >> $PATHDATA/../logs/debug.log; fi
+        fi
+        # Add info into the log, making it easer to monitor cards
+        echo "The shortcut points to audiofolder '$FOLDER'." >> $PATHDATA/../shared/latestID.txt
+        if [ "${DEBUG_rfid_trigger_play_sh}" == "TRUE" ]; then echo "The shortcut points to audiofolder '$FOLDER'." >> $PATHDATA/../logs/debug.log; fi
+    fi
 fi
 
 ##############################################################
